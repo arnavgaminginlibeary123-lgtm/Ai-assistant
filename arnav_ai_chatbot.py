@@ -155,8 +155,7 @@ class InternetAIChatbot:
         print("=" * 50)
         
         while True:
-            user_input = input("
-You: ").strip()
+            user_input = input("You: ").strip()
             
             if user_input.lower() in ['quit', 'exit', 'bye']:
                 print("👋 ArnavBot: Goodbye! Made by Arnav Srivastava 🚀")
