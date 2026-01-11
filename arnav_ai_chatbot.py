@@ -123,7 +123,7 @@ if __name__ == "__main__":
     chatbot.chat()
 """Main message processing logic"""
 intent = self.detect_intent(user_input)
-        context = ""
+context = ""
         
         if intent == "weather":
             # Simple logic to extract city (last word usually)
