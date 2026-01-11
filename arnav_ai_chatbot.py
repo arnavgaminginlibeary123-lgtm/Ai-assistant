@@ -19,7 +19,7 @@ WEATHER_API_KEY = os.getenv("WEATHER_API_KEY", "your-weather-key")
 
 # Initialize OpenAI Client (Modern v1.0+ Syntax)
 client = OpenAI(api_key=OPENAI_API_KEY)
-
+Client.__init__()
 class InternetAIChatbot:
     def __init__(self):
         self.conversation_history: List[Dict[str, str]] = []
