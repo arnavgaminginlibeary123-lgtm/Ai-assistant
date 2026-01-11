@@ -59,4 +59,79 @@ class InternetAIChatbot:
     def detect_intent(self, text: str) -> tuple:
         text_clean = text.lower()
         
-        # Weather Detection: Looks for 'weather in [city]' or 'temperature in [city
+        # Weather Detection: Looks for 'weather in [city]' or 'temperature in [city]'
+        weather_match = re.search(r'(?:weather|temp|temperature)\s+(?:in|at|for)\s+([a-zA-Z\s]+)', text_clean)
+        if weather_match:
+            return "weather", weather_match.group(1).strip()
+            
+        # Search Detection: Explicit triggers
+        if any(word in text_clean for word in ["search", "google", "find out", "who is"]):
+            query = re.sub(r'(search|google|find out|for)', '', text_clean).strip()
+            return "search", query if query else text
+            
+        return "chat", ""
+
+    def get_openai_response(self, user_input: str, context: str = "") -> str:
+        if not OPENAI_API_KEY or "your-openai" in OPENAI_API_KEY:
+            return "ArnavBot: Error - Please provide a valid OpenAI API Key."
+            
+        try:
+            messages = [
+                {"role": "system", "content": f"You are ArnavBot, created by Arnav Srivastava. Use this real-time data if relevant: {context}"}
+            ]
+            
+            # Add short-term memory
+            for entry in self.conversation_history[-3:]:
+                messages.append({"role": "user", "content": entry["user"]})
+                messages.append({"role": "assistant", "content": entry["bot"]})
+                
+            messages.append({"role": "user", "content": user_input})
+
+            completion = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=messages,
+                temperature=0.7
+            )
+            return completion.choices[0].message.content
+        except Exception as e:
+            return f"AI Error: {str(e)}"
+
+    def process_message(self, user_input: str) -> str:
+        intent, param = self.detect_intent(user_input)
+        context = ""
+
+        if intent == "weather":
+            context = self.get_weather(param)
+        elif intent == "search":
+            context = self.google_search(param)
+
+        response = self.get_openai_response(user_input, context)
+        self.conversation_history.append({"user": user_input, "bot": response})
+        return response
+
+def main():
+    bot = InternetAIChatbot()
+    print("\n" + "="*50)
+    print("🚀 ARNAV AI CHATBOT - Production Version")
+    print("👨‍💻 Created by Arnav Srivastava")
+    print("="*50)
+    print("Commands: 'weather in London', 'search space news', 'exit'")
+
+    while True:
+        try:
+            user_msg = input("\nYou: ").strip()
+            if not user_msg:
+                continue
+            if user_msg.lower() in ["exit", "quit", "bye"]:
+                print("👋 Goodbye! Built by Arnav Srivastava.")
+                break
+                
+            print("🤖 ArnavBot is thinking...")
+            reply = bot.process_message(user_msg)
+            print(f"\n🤖 ArnavBot: {reply}")
+            
+        except KeyboardInterrupt:
+            break
+
+if __name__ == "__main__":
+    main()
