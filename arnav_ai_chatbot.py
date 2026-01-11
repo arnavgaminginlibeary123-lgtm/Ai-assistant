@@ -122,7 +122,7 @@ if __name__ == "__main__":
     chatbot = InternetAIChatbot()
     chatbot.chat()
 """Main message processing logic"""
-        intent = self.detect_intent(user_input)
+intent = self.detect_intent(user_input)
         context = ""
         
         if intent == "weather":
