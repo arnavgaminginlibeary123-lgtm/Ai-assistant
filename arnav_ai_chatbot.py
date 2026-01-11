@@ -44,7 +44,7 @@ class InternetAIChatbot:
             for result in results.get("organic", [])[:3]:
                 title = result.get('title', 'No title')
                 snippet = result.get('snippet', '')
-                search_results.append(f"**{title}**
+                search_results.append("f"**{title}**
 {snippet}")
             return "
 
