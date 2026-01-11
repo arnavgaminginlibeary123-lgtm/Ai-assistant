@@ -124,20 +124,20 @@ if __name__ == "__main__":
 """Main message processing logic"""
 intent = self.detect_intent(user_input)
 context = ""
-        
-        if intent == "weather":
+       
+if intent == "weather":
             # Simple logic to extract city (last word usually)
             words = user_input.split()
             city = words[-1].strip("?!.") if len(words) > 1 else "Delhi"
             context = self.get_weather(city)
             response = self.get_openai_response(user_input, context)
             
-        elif intent == "search":
+elif intent == "search":
             query = re.sub(r'(search|google|find|for)', '', user_input, flags=re.IGNORECASE).strip()
             context = self.google_search(query)
             response = self.get_openai_response(user_input, context)
             
-        else:
+else:
             response = self.get_openai_response(user_input)
         
         # Update conversation history
@@ -145,7 +145,7 @@ context = ""
         if len(self.conversation_history) > self.max_history:
             self.conversation_history.pop(0)
             
-        return response
+return response
 
     def chat(self):
         """Main chat loop"""
@@ -155,7 +155,7 @@ context = ""
         print("Commands: 'weather [city]', 'search [query]', 'quit'")
         print("=" * 50)
         
-        while True:
+ while True:
             user_input = input("You: ").strip()
             
             if user_input.lower() in ['quit', 'exit', 'bye']:
