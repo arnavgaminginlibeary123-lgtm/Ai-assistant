@@ -50,8 +50,7 @@ class InternetAIChatbot:
             search_results = []
             for result in results.get("organic", []):
                 search_results.append(f"• {result.get('title', '')}: {result.get('snippet', '')}")
-            
-                    return "\n".join(search_results[:3]) if search_results else "No search results found."
+                return "\n".join(search_results[:3]) if search_results else "No search results found."
     except Exception as e:
         return f"Search error: {str(e)}"
 
