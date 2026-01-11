@@ -52,7 +52,7 @@ class InternetAIChatbot:
                 search_results.append(f"• {result.get('title', '')}: {result.get('snippet', '')}")
             
             return 
-".join(search_results[:3]) if search_results else "No search results found."
+".join(search_results[:3]) if search_results else "No search results found.
         except Exception as e:
             return f"Search error: {str(e)}"
 
