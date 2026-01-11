@@ -51,10 +51,10 @@ class InternetAIChatbot:
             for result in results.get("organic", []):
                 search_results.append(f"• {result.get('title', '')}: {result.get('snippet', '')}")
             
-            return 
-".join(search_results[:3]) if search_results else "No search results found.
-        except Exception as e:
-            return f"Search error: {str(e)}"
+                    return "\n".join(search_results[:3]) if search_results else "No search results found."
+    except Exception as e:
+        return f"Search error: {str(e)}"
+
 
     def get_weather(self, city: str) -> str:
         """Get weather using WeatherAPI"""
